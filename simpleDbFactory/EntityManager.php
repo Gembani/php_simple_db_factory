@@ -60,15 +60,9 @@ class EntityManager{
   }
 
   public function define($table_name, $options = []){
-    // $sql = "describe `$table_name`";
-    // $data = $this->query($sql);
-    //TODO
-    // if ($table_options[$table_name]){
-    // 	throw new \Expeption("cannot defined a table name twice");
-    // }
+    if (is_array($this->table_options[$table_name])){
+			throw new \Exception("cannot defined a table name twice");
+    }
     $this->table_options[$table_name] = $options;
-    // while($row = $data->fetch_assoc()){
-    // 	print_r($row);
-    // }
-  }
+ }
 }

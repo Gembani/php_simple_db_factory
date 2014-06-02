@@ -43,7 +43,7 @@ class EntityManagerTest extends \PHPUnit_Framework_TestCase {
   * @expectedException InvalidArgumentException
   */
   public function testNewEntityManagerNoArgumentsThrows(){
-    new EntityManager();
+		new EntityManager();
   }
   /**
       * @expectedException InvalidArgumentException
@@ -73,6 +73,15 @@ class EntityManagerTest extends \PHPUnit_Framework_TestCase {
   }
 
 
+
+  /**
+  * @expectedException Exception
+  */
+	public function testCallTwoDefinedThrowsException(){
+    $a = 	new EntityManager(self::correct_credentials());
+    $a->define('test_table');
+    $a->define('test_table');
+	}
 
 	public function testDefineExists(){
     $int = 2;
