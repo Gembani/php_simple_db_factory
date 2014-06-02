@@ -5,6 +5,7 @@ class EntityManager{
   public $db;
   private $connection_settings;
   private $table_options;
+	private $table_primary_keys = [];
   function __construct($connection_settings = []) {
     $this->connection_settings = $connection_settings;
     if (!array_key_exists('host', $this->connection_settings)){
@@ -37,7 +38,11 @@ class EntityManager{
     }
     return $data;
   }
-
+	private function getPrimaryKey($table){
+		$data = $this->query("SHOW KEYS FROM $table WHERE Key_name = 'PRIMARY'");
+		$row = $data->fetch_assoc();
+		return $row['Column_name'];
+	}
   public function addRow($table_name, $overrides = []){
     $to_add = array_merge($this->table_options[$table_name], $overrides);
     $values = [];
@@ -65,12 +70,18 @@ class EntityManager{
     $values_string = implode(", ", $values);
     $sql = "INSERT INTO `$table_name` ($keys_string) VALUES ($values_string)";
     $this->query($sql);
-  }
+		$id = mysqli_insert_id($this->db);
+		
+		$data = $this->query("select * from `$table_name` where `".$this->table_primary_keys[$table_name]."` = $id");
+		return $data->fetch_assoc();
+	}
 
   public function define($table_name, $options = []){
     if (is_array($this->table_options[$table_name])){
 			throw new \Exception("cannot defined a table name twice");
     }
-    $this->table_options[$table_name] = $options;
+		$this->table_options[$table_name] = $options;
+		$this->table_primary_keys[$table_name] = $this->getPrimaryKey($table_name);
+    
  }
 }

@@ -89,10 +89,17 @@ class EntityManagerTest extends \PHPUnit_Framework_TestCase {
     $a = 	new EntityManager(self::correct_credentials());
 
     $a->define('test_table', ['test_int' => $int, 'test_string' => $string]);
-    $a->addRow('test_table');
+    $row = $a->addRow('test_table');
 
     $result =  self::$db->query("select * from test_table");
-    while($row = $result->fetch_assoc()){
+    
+		//verifyRowReturned	
+		$this->assertEquals($row['test_int'], $int);
+		$this->assertEquals($row['test_string'], $string);
+		$this->assertEquals($row['test_table_id'], 1);
+		
+		//verifyDB
+		while($row = $result->fetch_assoc()){
       $rows[]= $row;
     }
     $this->assertEquals(count($rows), 1);
