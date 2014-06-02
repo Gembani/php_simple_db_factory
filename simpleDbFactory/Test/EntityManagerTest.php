@@ -83,7 +83,7 @@ class EntityManagerTest extends \PHPUnit_Framework_TestCase {
     $a->define('test_table');
 	}
 
-	public function testDefineExists(){
+	public function testCanAddSimpleRow(){
     $int = 2;
     $string = "test_string";
     $a = 	new EntityManager(self::correct_credentials());
@@ -98,6 +98,23 @@ class EntityManagerTest extends \PHPUnit_Framework_TestCase {
     $this->assertEquals(count($rows), 1);
     $this->assertEquals($rows[0]['test_int'], $int);
     $this->assertEquals($rows[0]['test_string'], $string);
+
+  }
+	public function testCanAddRowWithGenerators(){
+    $int = 2;
+    $string = "test_string";
+    $a = 	new EntityManager(self::correct_credentials());
+
+    $a->define('test_table', ['test_int' => new \simpleDbFactory\SequentialNumberGenerator(), 'test_string' => new \simpleDbFactory\StringGenerator('test_string {n}')]);
+    $a->addRow('test_table');
+
+    $result =  self::$db->query("select * from test_table");
+    while($row = $result->fetch_assoc()){
+      $rows[]= $row;
+    }
+    $this->assertEquals(count($rows), 1);
+    $this->assertEquals($rows[0]['test_int'], 0);
+    $this->assertEquals($rows[0]['test_string'], 'test_string 0');
 
   }
 }

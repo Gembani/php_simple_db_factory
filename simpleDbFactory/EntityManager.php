@@ -42,9 +42,17 @@ class EntityManager{
     $to_add = array_merge($this->table_options[$table_name], $overrides);
     $values = [];
     $keys = [];
-    foreach ($to_add as $key => $value){
+    foreach ($to_add as $key => $pre_converted_value){
       $keys[]= "`$key`";
-      if (is_string($value)){
+      
+			
+			if (method_exists($pre_converted_value, 'next')){
+				$value = $pre_converted_value->next();
+			}else{
+				$value = $pre_converted_value;
+			}
+			
+			if (is_string($value)){
         $value = mysqli_real_escape_string($this->db, $value);
         $values[]="'$value'";
       }else if(is_numeric($value)){
