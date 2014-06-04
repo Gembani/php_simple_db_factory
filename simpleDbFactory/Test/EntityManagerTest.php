@@ -39,38 +39,7 @@ class EntityManagerTest extends \PHPUnit_Framework_TestCase {
      self::$db->query('truncate test_table');
   }
 
-  /**
-  * @expectedException InvalidArgumentException
-  */
-  public function testNewEntityManagerNoArgumentsThrows(){
-		new EntityManager();
-  }
-  /**
-      * @expectedException InvalidArgumentException
-  */
-  public function testNewEntityManagerHostOnlyThrows(){
-    new EntityManager(['host' => "asdfas"]);
-  }
-  /**
-  * @expectedException InvalidArgumentException
-  */
-  public function testNewEntityManagerHostUsernameOnlyThrows(){
-    new EntityManager(['host' => "asdfas",'username' => "asdfas"]);
-  }
-
-  /**
-      * @expectedException InvalidArgumentException
-  */
-  public function testNewEntityManagerHostUsernamePasswordOnlyThrows(){
-    new EntityManager(['host' => "asdfas",'username' => "asdfas", 'password' => 'password']);
-  }
-
-
-  public function testConnectEntityManager(){
-    $a = 	new EntityManager(self::correct_credentials());
-    $this->assertTrue(
-    method_exists($a->db, 'query'), 'Class does not have method');
-  }
+  
 
 
 
