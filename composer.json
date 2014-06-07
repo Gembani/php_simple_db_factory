@@ -1,5 +1,5 @@
 {
-    "name": " simple-db-factory/simple-db-factory",
+    "name": "nicholasjstock/simple-db-factory",
     "description": "Simple way of adding data to your database for testing",
     "type": "library",
     "require-dev": {
