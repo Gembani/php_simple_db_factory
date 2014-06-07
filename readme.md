@@ -8,24 +8,23 @@ Simple DB Factory will be a framework agnostic way of populating a mysql databas
 ##Instalation
 using composer (https://getcomposer.org/)
 composer.json:
-```
-json
+```json
 {
   ....
     "require-dev": {
         "phpunit/phpunit": "4.0.*",
         "nicholasjstock/simple-db-factory": "dev-master"
-    },
+    }
     ...
 
 }
+
 ```
 composer install
-```
 
 then in your script:
-```
-php
+
+```php
 <?php
 require 'vendor/autoload.php';
 $connection = ['host' => 'localhost', 'username' => 'username', 'password' => 'password', 'database' => 'db_name'];
