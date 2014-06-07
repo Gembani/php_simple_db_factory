@@ -5,8 +5,33 @@ Simple DB Factory will be a framework agnostic way of populating a mysql databas
 - Each Table you define using entity manager requires a auto incremented primary key.
 - Only compatible with phps mysqli extention
 
-##Usage
+##Instalation
+using composer (https://getcomposer.org/)
+composer.json:
+```
+json
+{
+  ....
+    "require-dev": {
+        "phpunit/phpunit": "4.0.*",
+        "nicholasjstock/simple-db-factory": "dev-master"
+    },
+    ...
 
+}
+```
+composer install
+```
+
+then in your script:
+```
+php
+<?php
+require 'vendor/autoload.php';
+$connection = ['host' => 'localhost', 'username' => 'username', 'password' => 'password', 'database' => 'db_name'];
+$a = 	new simpleDbFactory\EntityManager($connection);
+
+```
 ### Simple Example
 ```php
 $credentials = [];
