@@ -28,13 +28,21 @@ class Mysqli{
     $database = $this->connection_settings['database'];
     $this->db = mysqli_connect($host, $username, $password, $database) or die("Error " . mysqli_error($this->db));
   }
-	
+
 	public function insert_id(){
 		return mysqli_insert_id($this->db);
 	}
 	public function escape_string($value){
 		return mysqli_real_escape_string($this->db, $value);
 	}
+  public function begin_transaction(){
+    $this->db->begin_transaction();
+  }
+
+  public function rollback(){
+    $this->db->rollback();
+  }
+
   public function query($sql){
     $data = $this->db->query($sql);
     if($data === false) {

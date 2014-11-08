@@ -9,9 +9,15 @@ class EntityManager{
   function __construct($connection_settings = []) {
     $this->connection_settings = $connection_settings;
 		$this->db = new drivers\Mysqli($this->connection_settings);
+
   }
 
-	
+  public function begin_transaction(){
+    $this->db->begin_transaction();
+  }
+  public function rollback(){
+    $this->db->rollback();
+  }
   public function addRow($table_name, $overrides = []){
     $to_add = array_merge($this->table_options[$table_name], $overrides);
     $values = [];
@@ -23,9 +29,9 @@ class EntityManager{
 			}else{
 				$value = $pre_converted_value;
 			}
-			
+
 			if (is_string($value)){
-        $value = $this->db->escape_string($value); 
+        $value = $this->db->escape_string($value);
         $values[]="'$value'";
       }else if(is_numeric($value)){
         $values[]="$value";
@@ -48,6 +54,6 @@ class EntityManager{
     }
 		$this->table_options[$table_name] = $options;
 		$this->table_primary_keys[$table_name] = $this->db->get_primary_key($table_name);
-    
+
  }
 }
